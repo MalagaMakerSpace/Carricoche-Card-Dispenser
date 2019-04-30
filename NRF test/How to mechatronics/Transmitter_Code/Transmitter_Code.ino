@@ -36,4 +36,5 @@ void loop() {
   else {
     digitalWrite(led, LOW);
   }
+  whatHappened(bool &tx_ok,bool &tx_fail,bool &rx_ready);
 }

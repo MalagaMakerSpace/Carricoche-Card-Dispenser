@@ -15,7 +15,23 @@ RF24 radio(7, 8); // CE, CSN
 const byte addresses[][6] = {"00001", "00002"};
 Servo myServo;
 boolean buttonState = 0;
+
+bool tx,fail,rx;
+void interrupt(){
+    radio.whatHappened( tx,fail,rx);
+    if(rx){
+        Serial.println("recibido: ");       
+    }
+    if(tx){
+        Serial.println("enviado\n");
+    }
+    if(fail){
+        Serial.println("fallo\n");
+    }
+}
+
 void setup() {
+  Serial.begin(9600);
   pinMode(button, INPUT);
   myServo.attach(5);
   radio.begin();
@@ -36,5 +52,8 @@ void loop() {
     radio.stopListening();
     buttonState = digitalRead(button);
     radio.write(&buttonState, sizeof(buttonState));
+  }
+  else{
+    interrupt();
   }
 }

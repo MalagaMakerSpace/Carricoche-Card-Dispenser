@@ -20,17 +20,12 @@ struct package
 };
 
 byte addresses[][6] = {"0"}; 
-int OUT1 = 5;
-int OUT2 = 6;
-int OUT3 = 9;
-int OUT4 = 10;
 
 
 typedef struct package Package;
 Package data;
 
 Servo myServo;
-//boolean buttonState = 0;
 int angleV = 0;
 
 void setup() 
@@ -44,14 +39,6 @@ void setup()
   myRadio.setDataRate( RF24_250KBPS ) ; 
   myRadio.openReadingPipe(1, addresses[0]);
   myRadio.startListening();
-  pinMode(OUT1, OUTPUT);
-  pinMode(OUT2, OUTPUT);
-  pinMode(OUT3, OUTPUT);
-  pinMode(OUT4, OUTPUT);
-  analogWrite(OUT1, 0);
-  analogWrite(OUT2, 0);
-  analogWrite(OUT3, 0);
-  analogWrite(OUT4, 0);
 }
 
 
@@ -59,10 +46,7 @@ void loop()
 {
   if ( myRadio.available()) 
   {
-    while (myRadio.available())
-    {
       myRadio.read( &data, sizeof(data) );
-    }
     Serial.print("X:");
     Serial.print(data.X);
     Serial.print("      Y");
@@ -74,7 +58,7 @@ void loop()
     Serial.print("      B");
     Serial.println(data.B);
     
-    int X = data.X;
+ /*   int X = data.X;
     int Y = data.Y;
     int Z = data.Z;
     int W = data.W;
@@ -82,7 +66,7 @@ void loop()
     
     myRadio.read(&angleV, sizeof(angleV));
      myServo.write(angleV);
-    
+ */ 
     
   } else {
     Serial.println("Not Connected");
