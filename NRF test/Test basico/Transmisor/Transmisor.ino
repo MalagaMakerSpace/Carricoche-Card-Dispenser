@@ -9,6 +9,7 @@ RF24 radio(pinCE, pinCSN);
 
 struct pack{
   int Y=0;
+  int X=0;
 };
  
 // Single radio pipe address for the 2 nodes to communicate.
@@ -28,6 +29,7 @@ void setup(void)
 void loop(void)
 {
    data.Y=analogRead(A0);
+   data.X=analogRead(A1);
    radio.write(&data, sizeof data);
    delay(10);
 }
