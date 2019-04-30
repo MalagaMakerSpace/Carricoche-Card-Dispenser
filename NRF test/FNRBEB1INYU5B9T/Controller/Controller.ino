@@ -41,7 +41,7 @@ void setup()
 void loop()
 {
  
-  myRadio.write(&data, sizeof(data)); 
+  
 
   Serial.print("X:");
   Serial.print(data.X);
@@ -62,5 +62,8 @@ void loop()
   data.Z = analogRead(A2);
   data.W = analogRead(A3);
   data.B = digitalRead(2);
+
+  myRadio.write(&data, sizeof(data)); 
+  
   delay(100);
 }
