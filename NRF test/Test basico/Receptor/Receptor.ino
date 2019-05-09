@@ -6,29 +6,33 @@
 const int pinCE = 7;
 const int pinCSN = 8;
 RF24 radio(pinCE, pinCSN);
-
-struct pack{
-  
-  int X=0;
-};
  
 // Single radio pipe address for the 2 nodes to communicate.
 const uint64_t pipe = 0xE8E8F0F0E1LL;
  
-//char data[16]="Hola mundo" ;
+struct pack {
+  
+  int Y = 0;
+  
+};
 
 typedef struct pack Package;
 Package data;
  
 void setup(void)
 {
+   Serial.begin(115200);
    radio.begin();
-   radio.openWritingPipe(pipe);
+   radio.openReadingPipe(1,pipe);
+   radio.startListening();
 }
  
 void loop(void)
 {
-   data.Y=analogRead(A0);
-   radio.write(&data, sizeof data);
-   delay(10);
+   if (radio.available())
+   {
+      /*int done =*/ radio.read(&data, sizeof data);
+      delay(10);
+      Serial.println(data.Y);
+   }
 }
