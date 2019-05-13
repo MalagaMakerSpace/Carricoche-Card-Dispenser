@@ -1,0 +1,7 @@
+2 motores DC para la base 	     -- se controlan con un puente H por separado 	-- Joystick(X/Y)
+1 motor DC para elevar plataforma    -- se controlan con un puente H			-- Joystick(boton)/Switch(3 posiciones) 
+1 Servo para mover dispenser	     -- 						-- Boton
+1 motor DC para tirar cartas	     -- se controlan con un puente H/Transistor		-- 2 botones(carta a carta y turbo)
+
+
+------------------------------SOLUCION JOYSTICK WII---------------------------------------------------------------------------------------
