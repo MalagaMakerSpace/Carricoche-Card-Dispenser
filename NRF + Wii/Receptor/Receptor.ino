@@ -20,6 +20,11 @@ struct pack{
   boolean Z = false;
 };
 
+int motorL_F=1;
+int motorL_B=2;
+int motorL_speed=3;
+int outMotorL;
+
 typedef struct pack Package;
 Package data;
  
@@ -30,6 +35,12 @@ void setup(void)
    radio.openReadingPipe(1,pipe);
    radio.startListening();
    servo.attach(3);
+
+   pinMode(motorL_F, OUTPUT);
+   pinMode(motorL_B, OUTPUT);
+
+   digitalWrite(motorL_F, LOW);
+   digitalWrite(motorL_B, LOW);
 }
  
 void loop(void)
@@ -41,6 +52,7 @@ void loop(void)
       Serial.println(data.X);
       Serial.println(data.Y);
       Serial.println(data.servo);
+      Serial.println(outMotorL);
       if (data.C) {
         Serial.println("C -- Pulsado");
       } else {
@@ -52,6 +64,28 @@ void loop(void)
       } else {
         Serial.println("Z -- No Pulsado");
       }
+
+      // outMotorL = map(data.Y,-100,100,-255,255);
+      
+      if(data.Y > 10){
+        digitalWrite(motorL_F, HIGH);
+        digitalWrite(motorL_B, LOW);
+        outMotorL = map(data.Y,0,100,0,255);
+        //outMotorL = 255*data.X*0.01;
+        analogWrite(motorL_speed, abs(outMotorL));
+      }else if(data.Y < -10){
+        digitalWrite(motorL_F, LOW);
+        digitalWrite(motorL_B, HIGH);
+        outMotorL = map(data.Y,-100,0,0,255);
+        //outMotorL = 255*(-data.X)*0.01;
+        analogWrite(motorL_speed, abs(outMotorL));
+      }else{
+        digitalWrite(motorL_F, LOW);
+        digitalWrite(motorL_B, LOW);
+        analogWrite(motorL_speed, 0);
+      }
+
+      
    } 
    
 }
