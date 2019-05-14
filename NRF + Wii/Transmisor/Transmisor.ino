@@ -38,13 +38,15 @@ void setup(void)
 void loop(void)
 {  
 
-	
-   data.Y = map(wii.joyY(), 0, 1023, -255, 255);
-   data.X = map(wii.joyX(), 0, 1023, -255, 255);
-   data.servo = map(wii.accelZ(), 0, 1023, -255, 255);
-   data.C = wii.buttonC();
-   data.Z = wii.buttonZ();
+	if (wii.poll()) {
+		data.Y = map(wii.joyY(), 0, 1023, -255, 255);
+		data.X = map(wii.joyX(), 0, 1023, -255, 255);
+ 		data.servo = map(wii.accelZ(), 0, 1023, 0, 45);
+ 		data.C = wii.buttonC();
+ 		data.Z = wii.buttonZ();
 
-   radio.write(&data, sizeof data);
-   delay(10);
+		radio.write(&data, sizeof data);
+		delay(10);
+	}
+   
 }
