@@ -39,12 +39,12 @@ void loop(void)
 {  
 
 	if (wii.poll()) {
-		data.Y = map(wii.joyY(), 33, 222, -100, 100);
-	   	data.X = map(wii.joyX(), 15, 214, -100, 100);
+		//data.Y = map(wii.joyY(), 33, 222, -100, 100);
+	   	//data.X = map(wii.joyX(), 15, 214, -100, 100);
  //		data.servo = map(wii.accelX(), 140, 90, 0, 45);
 
-// 		data.Y = wii.joyY();
-//		data.X = wii.joyX();
+ 		data.Y = wii.joyY();
+		data.X = wii.joyX();
  		data.servo = wii.accelX();
 
 

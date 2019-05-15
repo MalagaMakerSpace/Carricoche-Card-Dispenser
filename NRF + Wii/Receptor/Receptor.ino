@@ -20,10 +20,11 @@ struct pack{
   boolean Z = false;
 };
 
-int motorL_F=1;
-int motorL_B=2;
-int motorL_speed=3;
+int motorL_F=4;
+int motorL_B=5;
+int motorL_speed=6;
 int outMotorL;
+int vel;
 
 typedef struct pack Package;
 Package data;
@@ -36,11 +37,10 @@ void setup(void)
    radio.startListening();
    servo.attach(3);
 
+   
    pinMode(motorL_F, OUTPUT);
    pinMode(motorL_B, OUTPUT);
 
-   digitalWrite(motorL_F, LOW);
-   digitalWrite(motorL_B, LOW);
 }
  
 void loop(void)
@@ -49,10 +49,10 @@ void loop(void)
    {
       radio.read(&data, sizeof data);
       delay(10);
-      Serial.println(data.X);
+      //Serial.println(data.X);
       Serial.println(data.Y);
-      Serial.println(data.servo);
-      Serial.println(outMotorL);
+      //Serial.println(data.servo);
+      Serial.println(vel);
       if (data.C) {
         Serial.println("C -- Pulsado");
       } else {
@@ -65,24 +65,40 @@ void loop(void)
         Serial.println("Z -- No Pulsado");
       }
 
-      // outMotorL = map(data.Y,-100,100,-255,255);
+      vel = map(data.Y,30,224,-100,100);
       
-      if(data.Y > 10){
+      if(vel > 5){
         digitalWrite(motorL_F, HIGH);
         digitalWrite(motorL_B, LOW);
-        outMotorL = map(data.Y,0,100,0,255);
         //outMotorL = 255*data.X*0.01;
-        analogWrite(motorL_speed, abs(outMotorL));
-      }else if(data.Y < -10){
+        outMotorL = map(vel,0,100,0,255);
+        analogWrite(motorL_speed, outMotorL);
+        Serial.println("Motor hacia delante");
+        Serial.println(outMotorL);
+      }else if(vel < -5){
         digitalWrite(motorL_F, LOW);
         digitalWrite(motorL_B, HIGH);
-        outMotorL = map(data.Y,-100,0,0,255);
         //outMotorL = 255*(-data.X)*0.01;
-        analogWrite(motorL_speed, abs(outMotorL));
+        outMotorL = map(vel,-100,0,255,0);
+        analogWrite(motorL_speed, outMotorL);
+        Serial.println("Motor hacia atras");
+        Serial.println(outMotorL);
       }else{
         digitalWrite(motorL_F, LOW);
         digitalWrite(motorL_B, LOW);
         analogWrite(motorL_speed, 0);
+      }
+
+      if(data.Z){
+        digitalWrite(motorL_F, HIGH);
+        digitalWrite(motorL_B, LOW);
+        analogWrite(motorL_speed, 255);
+      }
+
+      if(data.C) {
+        digitalWrite(motorL_F, LOW);
+        digitalWrite(motorL_B, HIGH);
+        analogWrite(motorL_speed,150 );
       }
 
       
