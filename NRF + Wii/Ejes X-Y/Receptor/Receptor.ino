@@ -23,9 +23,9 @@ int motorL_F=4;
 int motorL_B=5;
 int motorL_speed=6;
 
-int motorR_F=10;
-int motorR_B=11;
-int motorR_speed=12;
+int motorR_F=1;
+int motorR_B=2;
+int motorR_speed=9;
 
 int outMotorL;
 int outMotorR;
@@ -108,7 +108,7 @@ void loop(void)
 
         	outMotorL = map(velY,0,100,0,255);
         	analogWrite(motorL_speed, outMotorL);
-        	analogWrite(motorR_speed, outMotorL);
+        	analogWrite(motorR_speed, outMotorR);
 
         	Serial.println("Motores hacia delante");
         	Serial.println(outMotorL);
